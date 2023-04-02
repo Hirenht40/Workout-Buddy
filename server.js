@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const workoutRoutes = require('./routes/workouts')
 const userRoutes = require('./routes/user')
 const cors = require("cors");
+const path = require("path");
+
 
 // express app
 const app = express()
@@ -16,6 +18,14 @@ app.use((req, res, next) => {
   console.log(req.path, req.method)
   next()
 })
+
+//static files
+app.use(express.static(path.join(__dirname, "./client/build")));
+
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
+
 
 // routes
 app.use('/api/workouts', workoutRoutes)
